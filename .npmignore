@@ -1,0 +1,15 @@
+# Ignore the documentation website source code
+website/
+
+# Ignore agent and IDE specific folders
+.gemini/
+.agents/
+
+# Ignore tests if they exist
+tests/
+__tests__/
+
+# Standard ignores (npm will ignore these anyway, but good to be explicit)
+node_modules/
+.env
+.DS_Store
