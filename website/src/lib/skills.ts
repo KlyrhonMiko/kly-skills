@@ -10,13 +10,20 @@ export interface SkillDetails extends SkillSummary {
   content: string; // Markdown content
 }
 
-const SKILLS_DIR = path.join(process.cwd(), "../data/skills");
+const SKILLS_DIR_1 = path.join(process.cwd(), "../data/skills"); // If cwd is website
+const SKILLS_DIR_2 = path.join(process.cwd(), "data/skills"); // If cwd is workspace root
+
+export function getSkillsDir() {
+  if (fs.existsSync(SKILLS_DIR_2)) return SKILLS_DIR_2;
+  return SKILLS_DIR_1;
+}
 
 export async function getSkillsList(): Promise<SkillSummary[]> {
+  const SKILLS_DIR = getSkillsDir();
   try {
     const llmsPath = path.join(SKILLS_DIR, "llms.txt");
     const content = await fs.promises.readFile(llmsPath, "utf-8");
-    const lines = content.split("\n");
+    const lines = content.replace(/\r/g, "").split("\n");
 
     const skills: SkillSummary[] = [];
 
@@ -32,13 +39,19 @@ export async function getSkillsList(): Promise<SkillSummary[]> {
     }
 
     return skills;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error reading llms.txt:", error);
-    return [];
+    return [
+      {
+        slug: "error-loading-skills",
+        description: `Failed: ${error.message} | cwd: ${process.cwd()} | dir: ${SKILLS_DIR}`,
+      }
+    ];
   }
 }
 
 export async function getSkillDetails(slug: string): Promise<SkillDetails | null> {
+  const SKILLS_DIR = getSkillsDir();
   try {
     const skillDir = path.join(SKILLS_DIR, slug);
     
@@ -59,6 +72,14 @@ export async function getSkillDetails(slug: string): Promise<SkillDetails | null
         content = "No README.md or SKILL.md found for this skill.";
       }
     }
+
+    // Strip YAML frontmatter if present
+    content = content.replace(/^\s*---\r?\n[\s\S]*?\r?\n---\r?\n/, "").trim();
+
+    // Rewrite relative asset paths to use the API route
+    content = content.replace(/src="(\.\/)?assets\//g, `src="/api/skills/${slug}/assets/`);
+    content = content.replace(/srcset="(\.\/)?assets\//g, `srcset="/api/skills/${slug}/assets/`);
+    content = content.replace(/\]\((\.\/)?assets\//g, `](/api/skills/${slug}/assets/`);
 
     // Get description from llms.txt
     const skillsList = await getSkillsList();

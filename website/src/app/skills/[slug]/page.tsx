@@ -1,7 +1,7 @@
 import { getSkillDetails } from "@/lib/skills";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, BookOpen } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
 
 interface SkillPageProps {
@@ -19,7 +19,7 @@ export default async function SkillPage({ params }: SkillPageProps) {
   }
 
   return (
-    <main className="min-h-screen pt-32 pb-24 px-6 max-w-[800px] mx-auto relative">
+    <main className="min-h-screen pt-32 pb-24 px-6 max-w-5xl mx-auto relative">
       {/* Background Glow */}
       <div className="fixed top-1/3 right-1/4 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none -z-10" />
 
@@ -33,18 +33,14 @@ export default async function SkillPage({ params }: SkillPageProps) {
 
       <header className="mb-16">
         <div className="flex items-center space-x-4 mb-6">
-          <div className="p-3 glass rounded-xl border-border-light shadow-sm text-primary">
-            <BookOpen className="w-6 h-6" />
-          </div>
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-heading">{skill.slug}</h1>
         </div>
-        <p className="text-xl text-body leading-relaxed max-w-2xl">
+        <p className="text-xl text-body leading-relaxed max-w-3xl">
           {skill.description}
         </p>
       </header>
 
-      <div className="glass-strong rounded-2xl p-8 md:p-12 shadow-xl shadow-black/5 relative">
-        {/* Subtle inner grid pattern could go here, for now just premium glass */}
+      <div className="relative mt-8 md:mt-12">
         <MarkdownRenderer content={skill.content} />
       </div>
     </main>

@@ -1,55 +1,46 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { Terminal, Github } from "lucide-react";
 
 export function Navbar() {
-  const { scrollY } = useScroll();
-  
-  const backgroundColor = useTransform(
-    scrollY,
-    [0, 50],
-    ["rgba(var(--background-rgb), 0)", "var(--glass-bg)"]
-  );
-  
-  const borderColor = useTransform(
-    scrollY,
-    [0, 50],
-    ["rgba(255, 255, 255, 0)", "var(--glass-border)"]
-  );
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const backdropFilter = useTransform(
-    scrollY,
-    [0, 50],
-    ["blur(0px)", "blur(20px)"]
-  );
+  useEffect(() => {
+    const updateScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", updateScroll, { passive: true });
+    updateScroll();
+    return () => window.removeEventListener("scroll", updateScroll);
+  }, []);
 
   return (
     <motion.header
-      style={{
-        backgroundColor,
-        borderColor,
-        backdropFilter,
-        borderBottomWidth: "1px",
-      }}
-      className="fixed top-0 left-0 right-0 z-50 transition-colors duration-300"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? "glass border-b border-border/40" : "bg-transparent border-b border-transparent"
+      }`}
     >
-      <div className="mx-auto max-w-[1200px] px-6 lg:px-12 flex h-20 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
-            <Terminal size={20} />
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 flex h-16 items-center justify-between">
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="flex items-center justify-center text-foreground/80 group-hover:text-primary transition-colors duration-300">
+            <Terminal size={18} strokeWidth={2} />
           </div>
-          <span className="font-bold tracking-tight text-heading">Klyrhon Skills</span>
+          <span className="text-[15px] font-medium tracking-tight text-foreground/90 group-hover:text-foreground transition-colors duration-300">
+            Klyrhon Skills
+          </span>
         </Link>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-6">
           <Link
             href="https://github.com/KlyrhonMiko/kly-skills"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-border-light bg-surface/50 text-muted transition-all duration-300 hover:border-primary/30 hover:text-primary hover:shadow-lg hover:shadow-primary/15"
+            className="flex items-center gap-2 text-[14px] font-medium text-muted hover:text-foreground transition-colors duration-300"
           >
-            <Github size={18} />
+            <span className="hidden sm:inline-block">GitHub</span>
+            <Github size={16} strokeWidth={2} />
           </Link>
         </div>
       </div>
