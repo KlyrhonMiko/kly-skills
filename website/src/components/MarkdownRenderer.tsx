@@ -36,6 +36,11 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
 
             return <img {...rest} style={Object.keys(customStyle).length > 0 ? customStyle : undefined} valign={vAlign as string} />;
           },
+          table: ({ node, ...props }: any) => (
+            <div className="w-full overflow-x-auto my-8 border border-border/50 rounded-lg">
+              <table {...props} className="w-full text-left min-w-[600px] md:min-w-full" />
+            </div>
+          ),
           td: ({ node, ...props }: any) => {
             const { vAlign, ...rest } = props;
             return <td {...rest} valign={vAlign as string} />;
@@ -52,4 +57,6 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       >
         {content}
       </ReactMarkdown>
-    </artic
+    </article>
+  );
+}
