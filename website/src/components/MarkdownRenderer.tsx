@@ -8,13 +8,13 @@ interface MarkdownRendererProps {
 
 export function MarkdownRenderer({ content }: MarkdownRendererProps) {
   return (
-    <article className="prose prose-zinc dark:prose-invert max-w-none 
+    <article className="prose prose-zinc dark:prose-invert max-w-none break-words
       prose-headings:font-bold prose-headings:text-heading 
       prose-p:text-body prose-li:text-body
       prose-a:text-primary hover:prose-a:text-primary-dark hover:prose-a:underline
       prose-img:rounded-xl prose-img:border prose-img:border-border-light prose-img:inline-block prose-img:m-0
       prose-code:text-primary prose-code:bg-primary/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:before:content-none prose-code:after:content-none
-      prose-pre:bg-surface-elevated prose-pre:border prose-pre:border-border-light prose-pre:shadow-sm prose-pre:whitespace-pre-wrap prose-pre:break-words"
+      prose-pre:bg-surface-elevated prose-pre:border prose-pre:border-border-light prose-pre:shadow-sm prose-pre:overflow-x-auto prose-pre:max-w-[calc(100vw-3rem)] sm:prose-pre:max-w-full"
     >
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
@@ -52,6 +52,4 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       >
         {content}
       </ReactMarkdown>
-    </article>
-  );
-}
+    </artic
