@@ -16,14 +16,14 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       prose-code:text-primary prose-code:bg-primary/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:before:content-none prose-code:after:content-none
       prose-pre:bg-surface-elevated prose-pre:border prose-pre:border-border-light prose-pre:shadow-sm prose-pre:whitespace-pre-wrap prose-pre:break-words"
     >
-      <ReactMarkdown 
-        remarkPlugins={[remarkGfm]} 
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
         components={{
           img: ({ node, ...props }: any) => {
             const { vAlign, style, ...rest } = props;
             const customStyle = { ...style };
-            
+
             if (rest.height && !customStyle.height) {
               customStyle.height = isNaN(Number(rest.height)) ? rest.height : `${rest.height}px`;
               if (!rest.width && !customStyle.width) {

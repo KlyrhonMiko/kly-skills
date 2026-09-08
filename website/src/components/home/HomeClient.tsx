@@ -130,12 +130,12 @@ export function HomeClient({ skills }: { skills: any[] }) {
             </span>
           </motion.div>
           
-          <motion.h1 variants={itemVariants} className="text-5xl sm:text-6xl md:text-7xl lg:text-[7.5rem] font-medium tracking-[-0.04em] text-balance text-heading leading-[0.9]">
-            Discover & master <br className="hidden md:block" />
-            <span className="italic opacity-80">agentic workflows.</span>
+          <motion.h1 variants={itemVariants} className="text-4xl sm:text-5xl md:text-7xl lg:text-[7.5rem] font-medium tracking-[-0.04em] text-balance text-heading leading-[1.1] md:leading-[0.9]">
+            Discover & master <br className="hidden sm:block" />
+            <span className="italic opacity-80 mt-2 sm:mt-0 inline-block">agentic workflows.</span>
           </motion.h1>
           
-          <motion.p variants={itemVariants} className="text-lg text-muted max-w-xl text-balance leading-[1.6] pt-4">
+          <motion.p variants={itemVariants} className="text-base sm:text-lg text-muted max-w-xl text-balance leading-[1.6] pt-4">
             A definitive library of AI skills and prompts to refine code, design premium interfaces, and automate development.
           </motion.p>
 
@@ -196,7 +196,7 @@ export function HomeClient({ skills }: { skills: any[] }) {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-24 relative border-t border-border/40 pt-12">
           
           {/* Left: Scrollable Index List (Col Span 5) */}
-          <div className="md:col-span-5 flex flex-col space-y-1">
+          <div className="hidden md:flex flex-col space-y-1 md:col-span-5">
             {skills.map((skill, i) => (
               <div 
                 key={skill.slug}
