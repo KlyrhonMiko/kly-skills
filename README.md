@@ -17,13 +17,15 @@ The easiest way to use the installer is via `npx` (which comes with npm). You do
 
 ```bash
 npx kly-skill
+# or
+npx kly-skills
 ```
 
 If you prefer to install it globally so you can use the command anywhere, you can do:
 
 ```bash
 npm install -g kly-skill
-kly-skills
+kly-skill # or kly-skills
 ```
 
 ### The Installation Process
