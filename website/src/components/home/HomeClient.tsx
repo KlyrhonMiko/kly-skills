@@ -126,7 +126,7 @@ export function HomeClient({ skills }: { skills: any[] }) {
         >
           <motion.div variants={itemVariants} className="mb-4">
             <span className="text-[11px] uppercase tracking-[0.2em] font-medium text-muted">
-              Antigravity Skills Directory
+              Skills Directory
             </span>
           </motion.div>
           

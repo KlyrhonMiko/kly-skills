@@ -1,10 +1,10 @@
-# Antigravity Skills Installer (kly-skill)
+# Antigravity & Codex Skills Installer (kly-skill)
 
-An interactive command-line tool for installing Antigravity Skills to your local environment.
+An interactive command-line tool for installing Skills to your local environment for Antigravity or Codex.
 
 > **Note:** This repository is a compilation of skills that I personally use.
 
-This utility provides a guided CLI experience (powered by `@clack/prompts`) to help you browse and install various Antigravity AI skills into your global skills directory (by default, `~/.gemini/config/skills`). 
+This utility provides a guided CLI experience (powered by `@clack/prompts`) to help you browse and install various AI skills into your global skills directory.
 
 ## Prerequisites
 
@@ -31,7 +31,7 @@ kly-skill # or kly-skills
 ### The Installation Process
 
 1. **Select Skills**: You will be presented with a multi-select list of available skills (e.g., `brandkit`, `design-taste-frontend`, `impeccable`, etc.). Use your arrow keys and spacebar to select the skills you want to install.
-2. **Choose Destination**: You can specify an absolute path for the installation. If you leave it blank, it defaults to your global Antigravity config directory: `~/.gemini/config/skills` (or the equivalent on your OS).
+2. **Choose Destination**: You can specify whether to install the skills for Antigravity (`~/.gemini/config/skills`), Codex (`~/.codex/skills`), or a custom absolute path.
 3. **Finish**: The tool will securely copy the selected skill directories into your target path.
 
 ## Bundled Skills

@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 
 async function main() {
   console.clear();
-  intro(pc.inverse(pc.bold(' ✦ Antigravity Skills Installer ')));
+  intro(pc.inverse(pc.bold(' ✦ Skills Installer ')));
 
   const skillsDir = path.join(__dirname, 'data', 'skills');
   
@@ -71,37 +71,60 @@ async function main() {
     }
   }
 
-  // Define default install paths
-  const globalConfigDir = path.join(os.homedir(), '.gemini', 'config', 'skills');
-
-  const destChoice = await text({
-    message: 'Where should we install these skills? (Provide absolute path, or leave empty for global default)',
-    placeholder: globalConfigDir,
-    defaultValue: globalConfigDir,
+  const targetPlatforms = await multiselect({
+    message: 'Which platform(s) would you like to install the skills for?',
+    options: [
+      { value: 'antigravity', label: 'Antigravity', hint: '~/.gemini/config/skills' },
+      { value: 'codex', label: 'Codex', hint: '~/.codex/skills' },
+      { value: 'custom', label: 'Custom Path', hint: 'Provide an absolute path' }
+    ],
+    required: true,
   });
 
-  if (isCancel(destChoice)) {
+  if (isCancel(targetPlatforms)) {
     cancel('Installation cancelled.');
     process.exit(0);
   }
 
-  const targetDir = destChoice || globalConfigDir;
+  const antigravityConfigDir = path.join(os.homedir(), '.gemini', 'config', 'skills');
+  const codexConfigDir = path.join(os.homedir(), '.codex', 'skills');
   
+  const targetDirs = [];
+
+  if (targetPlatforms.includes('antigravity')) {
+    targetDirs.push(antigravityConfigDir);
+  }
+  if (targetPlatforms.includes('codex')) {
+    targetDirs.push(codexConfigDir);
+  }
+  if (targetPlatforms.includes('custom')) {
+    const customDest = await text({
+      message: 'Enter custom absolute path for installation:',
+      placeholder: '/path/to/custom/skills/dir',
+    });
+
+    if (isCancel(customDest) || !customDest) {
+      cancel('Installation cancelled.');
+      process.exit(0);
+    }
+    targetDirs.push(customDest);
+  }
+
   const s = spinner();
-  s.start(`Installing ${selectedSkills.length} skills to ${targetDir}`);
+  s.start(`Installing ${selectedSkills.length} skills...`);
 
-  // Create target dir if it doesn't exist
-  await fs.ensureDir(targetDir);
-
-  for (const skill of selectedSkills) {
-    const srcPath = path.join(skillsDir, skill);
-    const destPath = path.join(targetDir, skill);
-    await fs.copy(srcPath, destPath);
+  for (const targetDir of targetDirs) {
+    await fs.ensureDir(targetDir);
+    for (const skill of selectedSkills) {
+      const srcPath = path.join(skillsDir, skill);
+      const destPath = path.join(targetDir, skill);
+      await fs.copy(srcPath, destPath);
+    }
   }
 
   s.stop('Installation complete!');
 
-  outro(pc.green(`Successfully installed ${selectedSkills.length} skills. You're ready to go! 🎉`));
+  outro(pc.green(`Successfully installed ${selectedSkills.length} skills to ${targetDirs.length} location(s). You're ready to go! 🎉`));
 }
 
 main().catch(err => {
